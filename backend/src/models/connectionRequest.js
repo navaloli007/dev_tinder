@@ -15,7 +15,7 @@ const connectionRequestSchema = new mongoose.Schema(
             required: true,
             enum: {
                 values: ["ignored", "interested", "accepted", "rejected"],
-                message: `{VALUE} is not a valid connection request status`
+                message: `{VALUE} is not a valid connection request status`,
             },
         },
     },
@@ -24,14 +24,17 @@ const connectionRequestSchema = new mongoose.Schema(
     }
 );
 
-connectionRequestSchema.pre("save", function (next) {
-    const connectionRequest = this;
-    if (connectionRequest.fromUserId.equals(connectionRequest.toUserId)) {
-        throw new Error("Cannot send connection request to yourself!");
+connectionRequestSchema.pre("save", function () {
+    if (this.fromUserId.equals(this.toUserId)) {
+        const err = new Error("Cannot send connection request to yourself!");
+        err.statusCode = 400;
+        throw err;
     }
-    next();
 });
 
-const ConnectionRequestModel = mongoose.model("ConnectionRequest", connectionRequestSchema);
+const ConnectionRequestModel = mongoose.model(
+    "ConnectionRequest",
+    connectionRequestSchema
+);
 
 module.exports = ConnectionRequestModel;
