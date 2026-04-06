@@ -13,8 +13,6 @@ const Body = () => {
     const userData = useSelector((store) => store.user);
 
     const fetchUser = async () => {
-        // eslint-disable-next-line no-debugger
-        debugger;
         if (userData) return;
         try {
             const res = await axios.get(BASE_URL + "/profile/view", {
