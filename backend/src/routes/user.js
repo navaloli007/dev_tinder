@@ -6,7 +6,7 @@ const User = require("../models/user");
 
 const USER_SAFE_DATA = "firstName lastName photoUrl about skills age gender";
 
-userRouter.get("/users/requests/recieved", userAuth, async (req, res) => {
+userRouter.get("/users/requests/received", userAuth, async (req, res) => {
     try {
         const loggedInUser = req.user;
         const connectionRequests = await ConnectionRequestModel.find({ toUserId: loggedInUser._id, status: "interested" }).populate("fromUserId", USER_SAFE_DATA);
