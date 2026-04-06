@@ -6,7 +6,6 @@ import { removeUser } from "../utils/userSlice";
 
 const NavBar = () => {
     const user = useSelector((store) => store.user);
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -16,7 +15,8 @@ const NavBar = () => {
             dispatch(removeUser());
             return navigate("/login");
         } catch (err) {
-            // Error logic maybe redirect to error page
+            // Handle Error Case
+            console.log(err);
         }
     };
 
@@ -51,7 +51,7 @@ const NavBar = () => {
                                 </Link>
                             </li>
                             <li>
-                                <a>Settings</a>
+                                <Link to="/connections">Connections</Link>
                             </li>
                             <li>
                                 <a onClick={handleLogout}>Logout</a>
